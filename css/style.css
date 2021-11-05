@@ -12,7 +12,7 @@ h1 {
     letter-spacing: -0.004em;
 
     text-align: center;
-    
+
     color: #75B79E;
 
     margin-top: 40px;
@@ -61,10 +61,10 @@ main {
     transform: rotateY(180deg);
 }
 
-.card:hover .back-face {
-    transform: rotateY(0deg);
+.card.selected .front-face {
+    transform: rotateY(-180deg);
 }
 
-.card:hover .front-face {
-    transform: rotateY(-180deg);
+.card.selected .back-face {
+    transform: rotateY(0deg);
 }

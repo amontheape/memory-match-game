@@ -1,10 +1,11 @@
 let cardNumber = 0;
+let breakCondition = false;
 
 function getEntry () {
 
 cardNumber = parseInt(prompt("Insira um número de cartas par entre 4 e 14: "));
 
-    while ( true ) {
+    while ( !breakCondition ) {
 
         if ((cardNumber % 2) !== 0){
             cardNumber = parseInt(prompt("Você digitou um número ímpar\n" + "Insira um número de cartas par entre 4 e 14: "));
@@ -13,23 +14,23 @@ cardNumber = parseInt(prompt("Insira um número de cartas par entre 4 e 14: "));
         } else if (cardNumber > 14) {
             cardNumber = parseInt(prompt("Você digitou um número par maior que 14\n" + "Insira um número de cartas par entre 4 e 14: "));
         } else {
-            break;
+            breakCondition = true;
+            cardFiller(cardNumber);
         }
 
     }
 
-    cardFiller(cardNumber);
 }
 
-function cardFiller (value) {
+function cardFiller (cardNumber) {
 
     const main = document.querySelector(".fill-in");
 
-    for (let i = 0 ; i < value ; i++ ) {
+    for (let i = 0 ; i < cardNumber ; i++ ) {
 
         main.innerHTML += `
         
-        <div class="card" onclick="flip()">
+        <div class="card">
 
             <div class="front-face face">
               Frente
@@ -41,15 +42,24 @@ function cardFiller (value) {
 
           </div>` ; 
 
-    }  
+    } 
+    
+    const cards = document.querySelectorAll(".card");
 
+    cards.forEach(card => card.addEventListener("click", flip));
 }
 
-getEntry();
+const cardContent = [];
 
-
-// criar função flip onclick
+function flip(event) {
+    event.target.parentNode.classList.toggle("selected"); 
+}
 
 // criar verificação de match das cartas e win condition
 
-// criar função random generator
+function randomKey () {
+    return Math.random() - 0.5;
+}
+
+
+
