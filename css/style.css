@@ -25,6 +25,35 @@ main {
     flex-wrap: wrap;
 }
 
+button {
+    width: 250px;
+    height: 60px;
+
+    padding: 4px 0;
+
+    margin-top: 100px;
+
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 23px;
+    text-align: center;
+    letter-spacing: 0.018em;
+
+    border: none;
+    border-radius: 20px;
+
+    color: #fff;
+    background-color: #75B79E;
+}
+
+button:hover {
+    background-color: #fff;
+    border-color: #75B79E;
+    color: #75B79E;
+    border: solid 1px;
+}
+
 .flex {
     display: flex;
 }
@@ -67,4 +96,18 @@ main {
 
 .card.selected .back-face {
     transform: rotateY(0deg);
+}
+
+.card img {
+    height: 65%;
+    width: 90%;
+}
+
+.card.selected img {
+    height: 100px;
+    width: 100px;
+}
+
+.hidden {
+    display: none;
 }
