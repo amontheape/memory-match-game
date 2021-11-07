@@ -107,21 +107,30 @@ function cardFiller (cardNumber) {
 }
 
 let currentCard;
-let moves = 0, matches = 0;
+let flag = false;
+let moves = 0;
 
 function flip(event) {
+
+    if (flag) return; 
+
     const element = event.currentTarget;
 
-     element.classList.add("selected");
+    element.classList.add("selected");
     
     moves++;
 
-    if ((moves % 2) === 0){  
+    if ((moves % 2) === 0) {  
+
+        flag = true;
+
+        disableCards(); 
 
         if ( element.classList.contains(currentCard)) {
-            document.querySelectorAll(`.${currentCard}`).forEach((card)=> card.removeEventListener("click", flip));
 
-            matches++;
+            flag = false;
+
+            enableCards();
 
             winCondition(matches, moves);
         } else {
@@ -143,10 +152,14 @@ function flipReset(element) {
     element.classList.remove("selected");
     
     currentCard = null;
+
+    flag = false;
+
+    enableCards();
 }
 
 function winCondition(matches, moves) {
-    if (matches === (cardNumber/2)) {
+    if ( document.querySelectorAll(".card.selected").length === (cardNumber)) {
         setTimeout(() => {
             alert(`Congrats champ, you've won in ${moves} moves`)
         }, 1000);
@@ -160,3 +173,10 @@ function compare() {
     return Math.random() - 0.5;
 }
 
+function enableCards() {
+    document.querySelectorAll(".card:not(.selected)").forEach((card)=> card.addEventListener("click", flip));
+}
+
+function disableCards() {
+    document.querySelectorAll(".card").forEach((card)=> card.removeEventListener("click", flip));
+}
