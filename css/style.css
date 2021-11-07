@@ -82,30 +82,28 @@ button:hover {
     justify-content: center;
     position: absolute;
     backface-visibility: hidden;
-    transition: all .5s;
+    transition: all 1s;
     transform-style: preserve-3d;
 }
 
 .back-face {
     transform: rotateY(180deg);
+    transition-duration: 1s;
 }
 
 .card.selected .front-face {
     transform: rotateY(-180deg);
+    transition-duration: 1s;
 }
 
 .card.selected .back-face {
     transform: rotateY(0deg);
+    transition-duration: 1s;
 }
 
 .card img {
     height: 65%;
     width: 90%;
-}
-
-.card.selected img {
-    height: 100px;
-    width: 100px;
 }
 
 .hidden {

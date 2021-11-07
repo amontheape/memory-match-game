@@ -2,89 +2,47 @@ let cardNumber = 0;
 let breakCondition = false;
 
 const cardContent = [
-    `<div class="card" data-identifier="card">
+    {
+     cardID : "pair0",
+     cardImg : "/images/pair-0.gif", 
+     altText : "card id 0", 
+    },
 
-        <div class="front-face face" data-identifier="front-face">
-            <img src="/images/front.png" alt="parrot image card cover"/>
-        </div>
+    {
+     cardID : "pair1",
+     cardImg : "/images/pair-1.gif", 
+     altText : "card id 1", 
+    },
 
-        <div class="back-face face" data-identifier="back-face">
-            <img src="/images/pair-0.gif" alt="card id 0"/>
-        </div>
+    {
+     cardID : "pair2",
+     cardImg : "/images/pair-2.gif", 
+     altText : "card id 2",
+    },
 
-    </div>`,
+    {
+     cardID : "pair3",
+     cardImg : "/images/pair-3.gif", 
+     altText : "card id 3",
+    },
 
-    `<div class="card" data-identifier="card">
+    {
+     cardID : "pair4",
+     cardImg : "/images/pair-4.gif", 
+     altText : "card id 4", 
+    },
 
-        <div class="front-face face" data-identifier="front-face">
-            <img src="/images/front.png" alt="parrot image card cover"/>
-        </div>
+    {
+     cardID : "pair5",
+     cardImg : "/images/pair-5.gif", 
+     altText : "card id 5", 
+    },
 
-        <div class="back-face face" data-identifier="back-face">
-            <img src="/images/pair-1.gif" alt="card id 1"/>
-        </div>
-
-    </div>`,
-
-    `<div class="card" data-identifier="card">
-
-        <div class="front-face face" data-identifier="front-face">
-            <img src="/images/front.png" alt="parrot image card cover"/>
-        </div>
-
-        <div class="back-face face" data-identifier="back-face">
-            <img src="/images/pair-2.gif" alt="card id 2"/>
-        </div>
-
-    </div>`,
-
-    `<div class="card" data-identifier="card">
-
-        <div class="front-face face" data-identifier="front-face">
-            <img src="/images/front.png" alt="parrot image card cover"/>
-        </div>
-
-        <div class="back-face face" data-identifier="back-face">
-            <img src="/images/pair-3.gif" alt="card id 3"/>
-        </div>
-
-    </div>`,
-
-    `<div class="card" data-identifier="card">
-
-        <div class="front-face face" data-identifier="front-face">
-            <img src="/images/front.png" alt="parrot image card cover"/>
-        </div>
-
-        <div class="back-face face" data-identifier="back-face">
-            <img src="/images/pair-4.gif" alt="card id 4"/>
-        </div>
-
-    </div>`,
-
-    `<div class="card" data-identifier="card">
-
-        <div class="front-face face" data-identifier="front-face">
-            <img src="/images/front.png" alt="parrot image card cover"/>
-        </div>
-
-        <div class="back-face face" data-identifier="back-face">
-            <img src="/images/pair-5.gif" alt="card id 5"/>
-        </div>
-
-    </div>`,
-
-    `<div class="card" data-identifier="card">
-
-        <div class="front-face face" data-identifier="front-face">
-            <img src="/images/front.png" alt="parrot image card cover"/>
-        </div>
-
-        <div class="back-face face" data-identifier="back-face">
-            <img src="/images/pair-6.gif" alt="card id 6"/>
-        </div>
-
-    </div>`
+    {
+     cardID : "pair6",
+     cardImg : "/images/pair-6.gif",
+     altText : "card id 6", 
+    },
 ];
 
 function getEntry () {
@@ -124,23 +82,96 @@ function cardFiller (cardNumber) {
     } 
 
     cardPool.sort(compare);
-    
-    for (let i = 0; i< cardNumber ; i++) {
 
-        main.innerHTML += cardPool[i];
+    cardPool.forEach((card)=> {
+        main.innerHTML +=
+        `<div class="card ${card.cardID}" data-identifier="card" key="${Math.random()}">
 
-    }
+            <div class="front-face face" data-identifier="front-face">
+                <img src="/images/front.png" alt="parrot image card cover"/>
+            </div>
+
+            <div class="back-face face" data-identifier="back-face">
+                <img src=${card.cardImg} alt=${card.altText}/>
+            </div>
+
+        </div>`
+    } );
 
     const cards = document.querySelectorAll(".card");
 
     cards.forEach(card => card.addEventListener("click", flip));
+
 }
+
+let currentCard;
+let moves = 0, matches = 0;
 
 function flip(event) {
-    event.target.parentNode.classList.toggle("selected"); 
+    const element = event.currentTarget;
+
+    console.log(element);
+
+    element.classList.add("selected");
+
+    moves++;
+
+    if ((moves % 2) === 0){  
+
+        if ( element.classList.contains(currentCard)) {
+            document.querySelectorAll(`.${currentCard}`).forEach((card)=> card.removeEventListener("click", flip));
+
+            matches++;
+
+            console.group(['match']);
+                console.log(`present= ${currentCard}`);
+            console.groupEnd();
+
+            winCondition(matches, moves);
+        } else {
+            setTimeout(flipReset, 1000, element);
+        }
+    } else {
+        currentCard = element.classList.item(1);  
+
+        console.group(['odd move']);
+            console.log(`present= ${currentCard}`);
+        console.groupEnd();
+
+    }
+
 }
 
-// criar verificação de match das cartas e win condition
+
+function flipReset(element) {
+
+    console.group(['element flipReset start']);
+        console.log(element);
+    console.groupEnd();
+
+    const previousCard = document.querySelector(`.${currentCard}`);
+    previousCard.classList.remove("selected");
+
+    element.classList.remove("selected");
+    
+    currentCard = null;
+
+    console.group(['not match']);
+        console.log(`present= ${currentCard}`);
+    console.groupEnd();
+
+    console.group(['element flipReset end']);
+        console.log(element);
+    console.groupEnd();
+}
+
+function winCondition(matches, moves) {
+    if (matches === (cardNumber/2)){
+        setTimeout(() => {alert(`Congrats champ, you've won in ${moves/2} moves`)}, 1000);
+    } else {
+        currentCard = null;
+    }
+}
 
 function compare() {
     return Math.random() - 0.5;
