@@ -53,7 +53,9 @@ cardNumber = parseInt(prompt("Insira um número de cartas par entre 4 e 14: "));
 
     while ( !breakCondition ) {
 
-        if ((cardNumber % 2) !== 0){
+        if (cardNumber === NaN){
+            cardNumber = parseInt(prompt("Você um caracter inválido\n" + "Insira um número de cartas par entre 4 e 14: "));
+        } else if ((cardNumber % 2) !== 0){
             cardNumber = parseInt(prompt("Você digitou um número ímpar\n" + "Insira um número de cartas par entre 4 e 14: "));
         } else if (cardNumber < 4) {
             cardNumber = parseInt(prompt("Você digitou um número par menor que 4\n" + "Insira um número de cartas par entre 4 e 14: "));
@@ -85,7 +87,7 @@ function cardFiller (cardNumber) {
 
     cardPool.forEach((card)=> {
         main.innerHTML +=
-        `<div class="card ${card.cardID}" data-identifier="card" key="${Math.random()}">
+        `<div class="card ${card.cardID}" data-identifier="card">
 
             <div class="front-face face" data-identifier="front-face">
                 <img src="/images/front.png" alt="parrot image card cover"/>
@@ -110,10 +112,8 @@ let moves = 0, matches = 0;
 function flip(event) {
     const element = event.currentTarget;
 
-    console.log(element);
-
-    element.classList.add("selected");
-
+     element.classList.add("selected");
+    
     moves++;
 
     if ((moves % 2) === 0){  
@@ -123,21 +123,12 @@ function flip(event) {
 
             matches++;
 
-            console.group(['match']);
-                console.log(`present= ${currentCard}`);
-            console.groupEnd();
-
             winCondition(matches, moves);
         } else {
             setTimeout(flipReset, 1000, element);
         }
     } else {
         currentCard = element.classList.item(1);  
-
-        console.group(['odd move']);
-            console.log(`present= ${currentCard}`);
-        console.groupEnd();
-
     }
 
 }
@@ -145,29 +136,21 @@ function flip(event) {
 
 function flipReset(element) {
 
-    console.group(['element flipReset start']);
-        console.log(element);
-    console.groupEnd();
+    const previousCard = document.querySelector(`.${currentCard}.selected`);
 
-    const previousCard = document.querySelector(`.${currentCard}`);
     previousCard.classList.remove("selected");
 
     element.classList.remove("selected");
     
     currentCard = null;
-
-    console.group(['not match']);
-        console.log(`present= ${currentCard}`);
-    console.groupEnd();
-
-    console.group(['element flipReset end']);
-        console.log(element);
-    console.groupEnd();
 }
 
 function winCondition(matches, moves) {
-    if (matches === (cardNumber/2)){
-        setTimeout(() => {alert(`Congrats champ, you've won in ${moves/2} moves`)}, 1000);
+    if (matches === (cardNumber/2)) {
+        setTimeout(() => {
+            alert(`Congrats champ, you've won in ${moves} moves`)
+        }, 1000);
+
     } else {
         currentCard = null;
     }
