@@ -53,9 +53,9 @@ cardNumber = parseInt(prompt("Insira um número de cartas par entre 4 e 14: "));
 
     while ( !breakCondition ) {
 
-        if (cardNumber === NaN){
+        if (cardNumber === NaN || cardNumber === null || cardNumber === undefined) {
             cardNumber = parseInt(prompt("Você um caracter inválido\n" + "Insira um número de cartas par entre 4 e 14: "));
-        } else if ((cardNumber % 2) !== 0){
+        } else if ((cardNumber % 2) !== 0) {
             cardNumber = parseInt(prompt("Você digitou um número ímpar\n" + "Insira um número de cartas par entre 4 e 14: "));
         } else if (cardNumber < 4) {
             cardNumber = parseInt(prompt("Você digitou um número par menor que 4\n" + "Insira um número de cartas par entre 4 e 14: "));
@@ -68,6 +68,7 @@ cardNumber = parseInt(prompt("Insira um número de cartas par entre 4 e 14: "));
 
     }
 
+    timerStart();
 }
 
 function cardFiller (cardNumber) {
@@ -107,12 +108,12 @@ function cardFiller (cardNumber) {
 }
 
 let currentCard;
-let flag = false;
+let stopper = false;
 let moves = 0;
 
 function flip(event) {
 
-    if (flag) return; 
+    if (stopper) return; 
 
     const element = event.currentTarget;
 
@@ -122,17 +123,17 @@ function flip(event) {
 
     if ((moves % 2) === 0) {  
 
-        flag = true;
+        stopper = true;
 
         disableCards(); 
 
         if ( element.classList.contains(currentCard)) {
 
-            flag = false;
+            stopper = false;
 
             enableCards();
 
-            winCondition(matches, moves);
+            winCondition(moves);
         } else {
             setTimeout(flipReset, 1000, element);
         }
@@ -153,15 +154,18 @@ function flipReset(element) {
     
     currentCard = null;
 
-    flag = false;
+    stopper = false;
 
     enableCards();
 }
 
-function winCondition(matches, moves) {
+function winCondition(moves) {
     if ( document.querySelectorAll(".card.selected").length === (cardNumber)) {
+
+        timerStop();
+
         setTimeout(() => {
-            alert(`Congrats champ, you've won in ${moves} moves`)
+            alert(`Você ganhou com ${moves} jogadas, em ${Math.floor(seconds / 60)}m e ${(seconds % 60).toFixed()}s`);
         }, 1000);
 
     } else {
@@ -179,4 +183,30 @@ function enableCards() {
 
 function disableCards() {
     document.querySelectorAll(".card").forEach((card)=> card.removeEventListener("click", flip));
+}
+
+let seconds = 0;
+let clearKey;
+
+function timerStart() {
+    clearKey = setInterval(()=> {
+
+        seconds++;
+
+        if (seconds/60 < 10) {
+            document.querySelector(".min").innerHTML=`0${Math.floor(seconds / 60)}`;
+        } else {
+            document.querySelector(".min").innerHTML=`${Math.floor(seconds / 60)}`;
+        }
+
+        if (seconds%60 < 10) {
+            document.querySelector(".sec").innerHTML=`0${(seconds % 60).toFixed()}`;
+        } else {
+            document.querySelector(".sec").innerHTML=`${(seconds % 60).toFixed()}`;
+        }
+    }, 100);
+}
+
+function timerStop() {
+    clearInterval(clearKey);
 }
