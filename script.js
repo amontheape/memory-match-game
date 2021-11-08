@@ -47,7 +47,7 @@ const cardContent = [
 
 function getEntry () {
 
-document.querySelector("button").classList.toggle("hidden");
+document.querySelector("button").classList.add("hidden");
 
 cardNumber = parseInt(prompt("Insira um número de cartas par entre 4 e 14: "));
 
@@ -220,7 +220,23 @@ function verifyChoice(playerChoice) {
         case 'sim':
         case 'SIM': 
         case 's':
-        case 'S': return window.location.reload();
+        case 'S': return gameReset();
         default : break;
     }
+}
+
+function gameReset() {
+    cardNumber = 0;
+    breakCondition = false;
+    moves = 0;
+    seconds = 0;
+
+    document.querySelector("main").innerHTML='';
+
+    document.querySelector(".min").innerHTML='00';
+    document.querySelector(".sec").innerHTML='00';
+
+    document.querySelectorAll(".card").forEach((card)=> card.classList.remove("selected"));
+
+    setTimeout(getEntry, 1000);
 }
