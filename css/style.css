@@ -68,8 +68,15 @@ button:hover {
 }
 
 .timer {
-    height: 20px;
-    width: 45px;
+    height: 30px;
+    width: 70px;
+
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 23px;
+    text-align: center;
+    letter-spacing: 0.018em;
 
     background-color: lightgrey;
     border-radius: 8px;

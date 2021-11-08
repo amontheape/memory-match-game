@@ -159,6 +159,8 @@ function flipReset(element) {
     enableCards();
 }
 
+let playerChoice;
+
 function winCondition(moves) {
     if ( document.querySelectorAll(".card.selected").length === (cardNumber)) {
 
@@ -166,6 +168,8 @@ function winCondition(moves) {
 
         setTimeout(() => {
             alert(`Você ganhou com ${moves} jogadas, em ${Math.floor(seconds / 60)}m e ${(seconds % 60).toFixed()}s`);
+            playerChoice = prompt("Você gostaria de reiniciar o jogo? Digite 'sim' para reiniciar:");
+            verifyChoice(playerChoice);
         }, 1000);
 
     } else {
@@ -204,9 +208,19 @@ function timerStart() {
         } else {
             document.querySelector(".sec").innerHTML=`${(seconds % 60).toFixed()}`;
         }
-    }, 100);
+    }, 1000);
 }
 
 function timerStop() {
     clearInterval(clearKey);
+}
+
+function verifyChoice(playerChoice) {
+    switch (playerChoice) {
+        case 'sim':
+        case 'SIM': 
+        case 's':
+        case 'S': return window.location.reload();
+        default : break;
+    }
 }
