@@ -4,43 +4,43 @@ let breakCondition = false;
 const cardContent = [
     {
      cardID : "pair0",
-     cardImg : "/images/pair-0.gif", 
+     cardImg : "./images/pair-0.gif", 
      altText : "card id 0", 
     },
 
     {
      cardID : "pair1",
-     cardImg : "/images/pair-1.gif", 
+     cardImg : "./images/pair-1.gif", 
      altText : "card id 1", 
     },
 
     {
      cardID : "pair2",
-     cardImg : "/images/pair-2.gif", 
+     cardImg : "./images/pair-2.gif", 
      altText : "card id 2",
     },
 
     {
      cardID : "pair3",
-     cardImg : "/images/pair-3.gif", 
+     cardImg : "./images/pair-3.gif", 
      altText : "card id 3",
     },
 
     {
      cardID : "pair4",
-     cardImg : "/images/pair-4.gif", 
+     cardImg : "./images/pair-4.gif", 
      altText : "card id 4", 
     },
 
     {
      cardID : "pair5",
-     cardImg : "/images/pair-5.gif", 
+     cardImg : "./images/pair-5.gif", 
      altText : "card id 5", 
     },
 
     {
      cardID : "pair6",
-     cardImg : "/images/pair-6.gif",
+     cardImg : "./images/pair-6.gif",
      altText : "card id 6", 
     },
 ];
@@ -90,11 +90,11 @@ function cardFiller (cardNumber) {
         main.innerHTML +=
         `<div class="card ${card.cardID}" data-identifier="card">
 
-            <div class="front-face face" data-identifier="front-face">
-                <img src="/images/front.png" alt="parrot image card cover"/>
+            <div class="front-face face" data-identifier="back-face">
+                <img src="./images/front.png" alt="parrot image card cover"/>
             </div>
 
-            <div class="back-face face" data-identifier="back-face">
+            <div class="back-face face" data-identifier="front-face">
                 <img src=${card.cardImg} alt=${card.altText}/>
             </div>
 
